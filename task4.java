@@ -12,7 +12,7 @@ public class task4 {
         System.out.println("Answer 5 = " + xPronounce("OMG x box unboxing video x D") );
         System.out.println("Answer 6 = " + largestGap(new int[] {9, 4, 26, 26, 0, 0, 5, 20, 6, 25, 5}));
         System.out.println("Answer 7 = " + raznitsa(832));
-        System.out.println("Answer 8 = " + commonLastVowel("Watch the characters dance!"));
+        System.out.println("Answer 8 = " + commonLastVowel("Watchy they characters dance!"));
         System.out.println("Answer 9 = " + memeSum(26, 39));
         System.out.println("Answer 10 = " + unrepeated("hello"));
     }
@@ -87,30 +87,50 @@ public static int raznitsa(int t) {
     return t - res;
 }
 
-// Метод для задачи 8 из task4
-    public static String commonLastVowel (String vowel) {
-        vowel = vowel.toLowerCase();
-        char[] arr = vowel.toCharArray();
-        int len = arr.length;
-        char buf = '1';
-        for(int i = 0; i< len; i++){
-          if (isVowel(arr[i]))
-              buf = arr[i];
+
+
+
+    public static boolean isVowel(char ch) {
+        if (ch == 'a' || ch == 'e' || ch == 'i'
+                || ch == 'o' || ch == 'u' || ch == 'y') {
+            return true;
         }
-        return String.valueOf(buf); //valueOf возвращает строкове представление переданного аргумента
+        return false;
     }
-
-    public static boolean isVowel(char c)
-    {return "aeiouy".indexOf(c)!=-1;}
-
+// Метод для задачи 8 из task4
+public static String commonLastVowel(String string) {
+    String lasts = "";
+    string = string.toLowerCase();
+    for (int i = 0; i < string.length(); i++) {
+        if (!isVowel(string.charAt(i)) || ((!Character.isLetter(string.charAt(i)) || i + 1 != string.length())
+                && (!Character.isLetter(string.charAt(i)) || Character.isLetter(string.charAt(i + 1))))) {
+            continue;
+        }
+        lasts += string.charAt(i);
+    }
+    String max = "" + lasts.charAt(0);
+    int max_c = 0;
+    int count = 0;
+    for (int i = 0; i < lasts.length() - 1; i++) {
+        count = 1;
+        for (int j = i + 1; j < lasts.length(); j++) {
+            if (lasts.charAt(i) == lasts.charAt(j)) count++;
+        }
+        if (count > max_c) {
+            max_c = count;
+            max = "" + lasts.charAt(i);
+        }
+    }
+    return max;
+}
 // Метод для задачи 9 из task4
-    public static int memeSum(int a1, int a2){
-        int len = Math.max(String.valueOf(a1).length(),String.valueOf(a2).length());
-        String w  = "";
-        for (int i = len - 1; i>= 0 ; i--){
+    public static int memeSum ( int a1, int a2){
+        int len = Math.max(String.valueOf(a1).length(), String.valueOf(a2).length());
+        String w = "";
+        for (int i = len - 1; i >= 0; i--) {
             w = (a1 % 10 + a2 % 10) + w;
-            a1 /=10;
-            a2 /=10;
+            a1 /= 10;
+            a2 /= 10;
         }
         return Integer.parseInt(w);
     }
